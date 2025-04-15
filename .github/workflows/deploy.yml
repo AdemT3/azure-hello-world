@@ -19,10 +19,15 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Zip app for deployment
-        run: zip -r release.zip .
+      - name: Zip app for deployment (including node_modules)
+        run: |
+          mkdir -p deploy
+          cp -r * deploy/
+          cp -r .[^.]* deploy/ || true
+          cd deploy
+          zip -r ../release.zip .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2

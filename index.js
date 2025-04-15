@@ -18,6 +18,8 @@ if (!process.env.AZURE_STORAGE_CONNECTION_STRING || !process.env.AZURE_STORAGE_C
 
 let containerClient;
 
+console.log('Storage connection length:', process.env.AZURE_STORAGE_CONNECTION_STRING?.length);
+
 try {
   const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING);
   containerClient = blobServiceClient.getContainerClient(process.env.AZURE_STORAGE_CONTAINER);

@@ -1,0 +1,26 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Local environment variables
+.env
+
+# Uploaded files (handled temporarily via multer)
+uploads/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build output (if React is added later)
+client/build/
+
+# VSCode settings
+.vscode/
+
+# Azure publish profiles (if generated)
+PublishSettings*.xmlnode_modules/

@@ -23,11 +23,7 @@ jobs:
 
       - name: Zip app for deployment (including node_modules)
         run: |
-          mkdir -p deploy
-          cp -r * deploy/
-          cp -r .[^.]* deploy/ || true
-          cd deploy
-          zip -r ../release.zip .
+          zip -r release.zip . -x "node_modules/**\*.cache" -x ".git/**" -x ".github/**" -x "deploy/**"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2

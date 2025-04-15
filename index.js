@@ -5,6 +5,8 @@ const fs = require('fs');
 const { BlobServiceClient } = require('@azure/storage-blob');
 require('dotenv').config();
 
+console.log('🚀 Starting Azure Blob Storage UI App...');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -16,8 +18,16 @@ if (!process.env.AZURE_STORAGE_CONNECTION_STRING || !process.env.AZURE_STORAGE_C
 
 const upload = multer({ dest: 'uploads/' });
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING);
-const containerClient = blobServiceClient.getContainerClient(process.env.AZURE_STORAGE_CONTAINER);
+let containerClient;
+
+try {
+  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING);
+  containerClient = blobServiceClient.getContainerClient(process.env.AZURE_STORAGE_CONTAINER);
+  console.log(`🔗 Connected to Azure Blob container: ${process.env.AZURE_STORAGE_CONTAINER}`);
+} catch (err) {
+  console.error('❌ Failed to connect to Azure Blob Storage:', err);
+  process.exit(1);
+}
 
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
@@ -52,7 +62,7 @@ app.get('/', async (req, res) => {
     html += '</ul>';
     res.send(html);
   } catch (err) {
-    console.error('Error listing blobs:', err.message);
+    console.error('❌ Error listing blobs:', err.message);
     res.status(500).send('Error listing blobs');
   }
 });

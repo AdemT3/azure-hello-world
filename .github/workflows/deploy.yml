@@ -21,9 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Zip app for deployment (including node_modules)
+      - name: Zip app for deployment (exclude node_modules)
         run: |
-          zip -r release.zip . -x "node_modules/**\*.cache" -x ".git/**" -x ".github/**" -x "deploy/**"
+          zip -r release.zip . -x "node_modules/**" ".git/**" ".github/**" "deploy/**"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
